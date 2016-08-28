@@ -8,15 +8,25 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.dennis.quiz.MainActivity">
-
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spin"
+        android:entries="@array/categories"
+        android:spinnerMode="dropdown"
+        android:layout_alignBottom="@+id/textView6"
+        android:layout_toRightOf="@+id/textView6"
+        android:layout_alignTop="@+id/textView6"
+        android:layout_alignRight="@+id/button_add"
+        android:layout_alignEnd="@+id/button_add">
+    </Spinner>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Question:"
         android:id="@+id/textView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -26,9 +36,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Right Answer:"
         android:id="@+id/textView4"
-        android:layout_below="@+id/button_add"
-        android:layout_alignRight="@+id/button_add"
-        android:layout_alignEnd="@+id/button_add" />
+        android:layout_below="@+id/spin"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,7 +65,7 @@
         android:layout_height="wrap_content"
         android:text="Add Data"
         android:id="@+id/button_add"
-        android:layout_below="@+id/editQuestion"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -86,8 +95,8 @@
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignRight="@+id/editFalseAnswer1"
+        android:layout_alignEnd="@+id/editFalseAnswer1" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -118,4 +127,16 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Categories:"
+        android:id="@+id/textView6"
+        android:layout_below="@+id/editQuestion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="37dp" />
+
 </RelativeLayout>

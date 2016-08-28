@@ -5,18 +5,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseHelper myDB;
     EditText editQuestion, editRA, editFA1, editFA2, editFA3;
     Button btnAddData;
+    Spinner editSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myDB = new DatabaseHelper(this);
 
+        editSpinner=(Spinner) findViewById(R.id.spin);
         editQuestion = (EditText) findViewById(R.id.editQuestion);
         editRA = (EditText) findViewById(R.id.editRightAnswer);
         editFA1 = (EditText) findViewById(R.id.editFalseAnswer1);
@@ -31,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean isInserted = myDB.insertData(editQuestion.getText().toString(),
+                        boolean isInserted = myDB.insertData(
+                                        editSpinner.getSelectedItem().toString(),
+                                        editQuestion.getText().toString(),
                                         editRA.getText().toString(),
                                         editFA1.getText().toString(),
                                         editFA2.getText().toString(),

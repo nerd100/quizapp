@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Quiz</string>
+
+    <string-array name="categories">
+        <item>Anime</item>
+        <item>Series</item>
+        <item>Movies</item>
+        <item>Games</item>
+        <item>Cartoons</item>
+        <item>Computer</item>
+        <item>Assi</item>
+    </string-array>
 </resources>

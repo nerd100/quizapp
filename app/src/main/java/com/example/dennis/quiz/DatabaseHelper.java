@@ -37,14 +37,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public boolean insertData(String question, String RA, String FA1, String FA2, String FA3){
+    public boolean insertData(String category, String question, String RA, String FA1, String FA2, String FA3){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2, question);
-        contentValues.put(COL_3, RA);
-        contentValues.put(COL_4, FA1);
-        contentValues.put(COL_5, FA2);
-        contentValues.put(COL_6, FA3);
+        contentValues.put(COL_2, category);
+        contentValues.put(COL_3, question);
+        contentValues.put(COL_4, RA);
+        contentValues.put(COL_5, FA1);
+        contentValues.put(COL_6, FA2);
+        contentValues.put(COL_7, FA3);
         long result = db.insert(TABLE_NAME,null,contentValues); //insert returns -1 if fails
         if (result == -1)
             return false;
