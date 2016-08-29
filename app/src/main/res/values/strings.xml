@@ -10,4 +10,12 @@
         <item>Computer</item>
         <item>Assi</item>
     </string-array>
+
+    <string-array name="difficulty">
+        <item>Very Easy</item>
+        <item>Easy</item>
+        <item>Middle</item>
+        <item>Hard</item>
+        <item>Very Hard</item>
+    </string-array>
 </resources>

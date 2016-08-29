@@ -1,5 +1,6 @@
 package com.example.dennis.quiz;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,45 +10,28 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    DatabaseHelper myDB;
-    EditText editQuestion, editRA, editFA1, editFA2, editFA3;
-    Button btnAddData;
-    Spinner editSpinner;
-    @Override
+    Button btn, startbtn;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myDB = new DatabaseHelper(this);
 
-        editSpinner=(Spinner) findViewById(R.id.spin);
-        editQuestion = (EditText) findViewById(R.id.editQuestion);
-        editRA = (EditText) findViewById(R.id.editRightAnswer);
-        editFA1 = (EditText) findViewById(R.id.editFalseAnswer1);
-        editFA2 = (EditText) findViewById(R.id.editFalseAnswer2);
-        editFA3 = (EditText) findViewById(R.id.editFalseAnswer3);
-        btnAddData = (Button) findViewById(R.id.button_add);
-        AddData();
-    }
+        startbtn = (Button) findViewById(R.id.btn_start);
+        btn = (Button) findViewById(R.id.addquestion);
 
-    public void AddData() {
-        btnAddData.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        boolean isInserted = myDB.insertData(
-                                        editSpinner.getSelectedItem().toString(),
-                                        editQuestion.getText().toString(),
-                                        editRA.getText().toString(),
-                                        editFA1.getText().toString(),
-                                        editFA2.getText().toString(),
-                                        editFA3.getText().toString());
-                        if(isInserted = true)
-                            Toast.makeText(MainActivity.this,"Data Inserted",Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(MainActivity.this,"Data not Inserted",Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
+        startbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Choose.class));
+            }
+        });
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AddQuestion.class));
+            }
+        });
 
     }
 }
