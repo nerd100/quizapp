@@ -3,19 +3,16 @@
 
     <string-array name="categories">
         <item>Anime</item>
-        <item>Series</item>
+        <item>Serien</item>
         <item>Movies</item>
         <item>Games</item>
-        <item>Cartoons</item>
-        <item>Computer</item>
+        <item>League of Legends</item>
         <item>Assi</item>
     </string-array>
 
     <string-array name="difficulty">
-        <item>Very Easy</item>
         <item>Easy</item>
-        <item>Middle</item>
+        <item>Medium</item>
         <item>Hard</item>
-        <item>Very Hard</item>
     </string-array>
 </resources>

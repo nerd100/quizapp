@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
-    public Cursor getAllData(String category,String diff){
+    public Cursor getAllData(String category, String diff){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT Question,RightAnswer,FalseAnswer1,FalseAnswer2,FalseAnswer3" +
                 " from "+ TABLE_NAME+" WHERE (Category =  \""+category+"\") AND (Difficulty=\""+diff+"\")",null);

@@ -1,71 +1,93 @@
 package com.example.dennis.quiz;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.inputmethodservice.Keyboard;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.jar.Attributes;
 
 public class Start extends AppCompatActivity {
     SharedPreferences shared_preferences;
     SharedPreferences.Editor shared_preferences_editor;
-
-    String test_string;
-
     DatabaseHelper myDB;
-    Choose choose;
-    TextView que;
+    TextView question;
     Button btn1,btn2,btn3,btn4;
-    String buttonName;
-    String[] parts;
+    ArrayList QuestionAndButtons;
+    String[] QuestionAndButtonsParts;
+    String firstQuestion="";
     int rightAnswer = 0;
+    Random rand = new Random();
+    Random r = new Random();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        shared_preferences = getSharedPreferences("shared_preferences_test",
-                MODE_PRIVATE);
-
-        test_string = shared_preferences.getString("Category", "Default");
-        Toast.makeText(getApplicationContext(), test_string, Toast.LENGTH_SHORT)
-                .show();
-        Random r = new Random();
-        rightAnswer = r.nextInt(4);
-
+        shared_preferences = getSharedPreferences("shared_preferences_test",MODE_PRIVATE);
+        //call database
         myDB = new DatabaseHelper(this);
-        choose = new Choose();
+        //generate number for right answer
+        rightAnswer = r.nextInt(4);
+        //get all Questions and all answer options;get a part of the database
+        QuestionAndButtons=allQuestion();
 
-        buttonName=viewAll();
-        parts = buttonName.split(",");
+        firstQuestion=Question(QuestionAndButtons);
+        QuestionAndButtonsParts = firstQuestion.split(",");
 
-        que =  (TextView) findViewById(R.id.question1);
-        que.setText(parts[0]);
+        NameButtons();
+    }
 
+    public String Question(ArrayList questionList){
+        String question;
+        int i = rand.nextInt(questionList.size());
+        question = questionList.get(i).toString();
+        questionList.remove(i);
+        return question;
+    }
+
+    public void next(){
+        rightAnswer = r.nextInt(4);
+        firstQuestion=Question(QuestionAndButtons);
+        QuestionAndButtonsParts = firstQuestion.split(",");
+        NameButtons();
+    }
+
+    public void NameButtons(){
+        question = (TextView) findViewById(R.id.question1);
+        question.setText(QuestionAndButtonsParts[0]);
         btn1 = (Button) findViewById(R.id.button1);
         btn2 = (Button) findViewById(R.id.button2);
         btn3 = (Button) findViewById(R.id.button3);
         btn4 = (Button) findViewById(R.id.button4);
-
-
-        mixButtons(rightAnswer,parts[1],parts[2],parts[3],parts[4]);
+        //mix all buttons
+        mixButtons(rightAnswer,QuestionAndButtonsParts[1],QuestionAndButtonsParts[2],QuestionAndButtonsParts[3],QuestionAndButtonsParts[4]);
 
     }
-
-    public String viewAll(){
+    public ArrayList allQuestion(){
+                        //position in database
                         Cursor res = myDB.getAllData(shared_preferences.getString("Category","Default")
                                 ,shared_preferences.getString("Difficulty","Default"));
+
+                        ArrayList<String> list=new ArrayList<String>();
+
                         if(res.getCount() == 0){
-                            //show Message
-                            //showMessage("Error","Nothing found!");
-                            return "NoData";
+                            //show error on screen
+                            Toast.makeText(getApplicationContext(), "Please insert data", Toast.LENGTH_SHORT)
+                                    .show();
+                            list.add("0,0,0,0,0");
+                            return list;//"No Question,3RR()R,3RR()R,3RR()R,3RR()R";
                         }
                         StringBuffer buffer = new StringBuffer();
                         while(res.moveToNext()){
@@ -74,13 +96,17 @@ public class Start extends AppCompatActivity {
                             buffer.append(res.getString(2)+",");
                             buffer.append(res.getString(3)+",");
                             buffer.append(res.getString(4));
+                            list.add(buffer.toString());
+                            buffer.delete(0,buffer.length());
                         }
-                        //Show all Data
-                        return buffer.toString();
+                        res.close();
+                        return list;
 
     }
 
-    public void mixButtons(int i,String RA, String FA1, String FA2,String FA3){
+
+
+    public void mixButtons(int i, final String RA, String FA1, String FA2, String FA3){
         switch(i){
             case 0:
                 btn1.setText(RA);
@@ -109,6 +135,90 @@ public class Start extends AppCompatActivity {
             default:
                 break;
         }
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btn1.getText() == RA){
+                    Toast.makeText(getApplicationContext(), "10Punkte", Toast.LENGTH_SHORT)
+                            .show();
+                    if(QuestionAndButtons.size() > 0)
+                        next();
+                    else
+                        startActivity(new Intent(Start.this, MainActivity.class));
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
+                            .show();
+                    if(QuestionAndButtons.size() > 0)
+                        next();
+                    else
+                        startActivity(new Intent(Start.this, MainActivity.class));
+                }
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btn2.getText() == RA){
+                    Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
+                            .show();
+                    if(QuestionAndButtons.size() > 0)
+                        next();
+                    else
+                        startActivity(new Intent(Start.this, MainActivity.class));
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
+                        .show();
+                    if(QuestionAndButtons.size() > 0)
+                        next();
+                    else
+                        startActivity(new Intent(Start.this, MainActivity.class));
+                }
+            }
+        });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btn3.getText() == RA){
+                    Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
+                            .show();
+                    if(QuestionAndButtons.size() > 0)
+                        next();
+                    else
+                        startActivity(new Intent(Start.this, MainActivity.class));
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
+                            .show();
+                    if (QuestionAndButtons.size() > 0)
+                        next();
+                    else
+                        startActivity(new Intent(Start.this, MainActivity.class));
+                }
+            }
+        });
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btn4.getText() == RA){
+                    Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
+                            .show();
+                    if(QuestionAndButtons.size() > 0)
+                        next();
+                    else
+                        startActivity(new Intent(Start.this, MainActivity.class));
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
+                            .show();
+                    if (QuestionAndButtons.size() > 0)
+                        next();
+                    else
+                        startActivity(new Intent(Start.this, MainActivity.class));
+                }
+            }
+        });
     }
 
     public void showMessage(String title,String Message){
@@ -117,6 +227,8 @@ public class Start extends AppCompatActivity {
         builder.setTitle(title);
         builder.setMessage(Message);
         builder.show();
+
     }
+
 
 }
