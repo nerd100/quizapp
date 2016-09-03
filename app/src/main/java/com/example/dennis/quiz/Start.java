@@ -25,6 +25,7 @@ public class Start extends AppCompatActivity {
     ArrayList QuestionAndButtons;
     String[] QuestionAndButtonsParts;
     String firstQuestion="";
+    String whichQuiz="";
     int rightAnswer = 0;
     Random rand = new Random();
     Random r = new Random();
@@ -36,15 +37,18 @@ public class Start extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         shared_preferences = getSharedPreferences("shared_preferences_test",MODE_PRIVATE);
-        //call database
+
+        whichQuiz=shared_preferences.getString("Number","Default");
+
         myDB = new DatabaseHelper(this);
+
         //generate number for right answer
         rightAnswer = r.nextInt(4);
         //get all Questions and all answer options;get a part of the database
-        QuestionAndButtons=allQuestion();
+        QuestionAndButtons=allQuestions();
 
         firstQuestion=Question(QuestionAndButtons);
-        QuestionAndButtonsParts = firstQuestion.split(",");
+        QuestionAndButtonsParts = firstQuestion.split(";");
 
         NameButtons();
     }
@@ -60,7 +64,7 @@ public class Start extends AppCompatActivity {
     public void next(){
         rightAnswer = r.nextInt(4);
         firstQuestion=Question(QuestionAndButtons);
-        QuestionAndButtonsParts = firstQuestion.split(",");
+        QuestionAndButtonsParts = firstQuestion.split(";");
         NameButtons();
     }
 
@@ -75,34 +79,101 @@ public class Start extends AppCompatActivity {
         mixButtons(rightAnswer,QuestionAndButtonsParts[1],QuestionAndButtonsParts[2],QuestionAndButtonsParts[3],QuestionAndButtonsParts[4]);
 
     }
-    public ArrayList allQuestion(){
-                        //position in database
-                        Cursor res = myDB.getAllData(shared_preferences.getString("Category","Default")
-                                ,shared_preferences.getString("Difficulty","Default"));
+    public ArrayList allQuestions() {
+        int QuestionCounter = 0;
+        Cursor res;
+        Random row = new Random();
+        StringBuffer buffer = new StringBuffer();
+        ArrayList<String> list = new ArrayList<String>();
 
-                        ArrayList<String> list=new ArrayList<String>();
+        Toast.makeText(getApplicationContext(), whichQuiz, Toast.LENGTH_SHORT).show();
 
-                        if(res.getCount() == 0){
-                            //show error on screen
-                            Toast.makeText(getApplicationContext(), "Please insert data", Toast.LENGTH_SHORT)
-                                    .show();
-                            list.add("0,0,0,0,0");
-                            return list;//"No Question,3RR()R,3RR()R,3RR()R,3RR()R";
-                        }
-                        StringBuffer buffer = new StringBuffer();
-                        while(res.moveToNext()){
-                            buffer.append(res.getString(0)+",");
-                            buffer.append(res.getString(1)+",");
-                            buffer.append(res.getString(2)+",");
-                            buffer.append(res.getString(3)+",");
-                            buffer.append(res.getString(4));
-                            list.add(buffer.toString());
-                            buffer.delete(0,buffer.length());
-                        }
-                        res.close();
-                        return list;
+        if (whichQuiz == "0") {
+            //position in database
+            res = myDB.getAllData(shared_preferences.getString("Category", "Default")
+                    , shared_preferences.getString("Difficulty", "Default"));
+            if(res.getCount() == 0){
+                //show error on screen
+                Toast.makeText(getApplicationContext(), "Please insert data", Toast.LENGTH_SHORT).show();
+                list.add("No Question,3RR()R,3RR()R,3RR()R,3RR()R");
+                return list;
+            }
 
+            while(res.moveToNext() && QuestionCounter <= 10){
+                buffer.append(res.getString(0)+";");
+                buffer.append(res.getString(1)+";");
+                buffer.append(res.getString(2)+";");
+                buffer.append(res.getString(3)+";");
+                buffer.append(res.getString(4));
+                list.add(buffer.toString());
+                buffer.delete(0,buffer.length());
+                QuestionCounter+=1;
+            }
+            //res.close();
+            return list;
+
+
+        } else {
+
+            res = myDB.getAllData("Hard");
+            if(res.getCount() == 0){
+                //show error on screen
+                Toast.makeText(getApplicationContext(), "Please insert data", Toast.LENGTH_SHORT).show();
+                list.add("No Question,3RR()R,3RR()R,3RR()R,3RR()R");
+                return list;
+            }
+            res.moveToPosition(row.nextInt(res.getCount()));
+            while(res.moveToNext() && QuestionCounter <= 2){
+                buffer.append(res.getString(0)+";");
+                buffer.append(res.getString(1)+";");
+                buffer.append(res.getString(2)+";");
+                buffer.append(res.getString(3)+";");
+                buffer.append(res.getString(4));
+                list.add(buffer.toString());
+                buffer.delete(0,buffer.length());
+                QuestionCounter+=1;
+            }
+            //res.close();
+            return list;
+
+
+            //list2.addAll(fill("Medium",row,QuestionCounter,buffer));
+            //list2.addAll(fill("Hard",row,QuestionCounter,buffer));
+            //return fill("Easy");
+
+        }
+        //list.add("No ,3RR()R,3RR()R,3RR()R,3RR()R");
+        //return list;
     }
+
+
+    public ArrayList fill(String diff){
+        int i = 0;
+        StringBuffer buffer = new StringBuffer();
+        ArrayList<String> list = new ArrayList<>();
+        Random row = new Random();
+        Cursor res = myDB.getAllData(diff);
+        if(res.getCount() == 0){
+            //show error on screen
+            Toast.makeText(getApplicationContext(), "Please insert data", Toast.LENGTH_SHORT).show();
+            list.add("No Question,3RR()R,3RR()R,3RR()R,3RR()R");
+            return list;
+        }
+        res.moveToPosition(row.nextInt(res.getCount()));
+        while(res.moveToNext() && i <= 2){
+            buffer.append(res.getString(0)+";");
+            buffer.append(res.getString(1)+";");
+            buffer.append(res.getString(2)+";");
+            buffer.append(res.getString(3)+";");
+            buffer.append(res.getString(4));
+            list.add(buffer.toString());
+            buffer.delete(0,buffer.length());
+            i+=1;
+        }
+        //res.close();
+        return list;
+    }
+
 
 
 

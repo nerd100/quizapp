@@ -21,6 +21,7 @@ public class AddQuestion extends AppCompatActivity {
     Button btnAddData;
     Spinner editSpinner1,editSpinner2;
     boolean isInserted;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

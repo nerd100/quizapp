@@ -23,28 +23,12 @@ public class Choose extends AppCompatActivity {
     String Category = "";
     String Difficulty = "";
     String test_string;
-    public void setCategory(String Category){
-        this.Category = Category;
-    }
-    public void setDifficutly(String Difficulty){
-        this.Difficulty = Difficulty;
-    }
-    public String getCategory(){
-        return Category;
-    }
-    public String getDifficulty(){
-        return Difficulty;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
-
-
-
-
-
 
         editSpinner1 = (Spinner) findViewById(R.id.spinner1);
         editSpinner2 = (Spinner) findViewById(R.id.spinner2);
@@ -52,7 +36,7 @@ public class Choose extends AppCompatActivity {
         shared_preferences = getSharedPreferences("shared_preferences_test",
                 MODE_PRIVATE);
 
-        test_string = shared_preferences.getString("Category", "Default");
+       // test_string = shared_preferences.getString("Category", "Default");
 
         //prefEditor.putString("Diff",editSpinner2.getSelectedItem().toString());
         //setCategory(editSpinner1.getSelectedItem().toString());
