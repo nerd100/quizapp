@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences shared_preferences;
     SharedPreferences.Editor shared_preferences_editor;
 
-    Button addbtn, startbtn1, startbtn2;
+    Button addbtn, startbtn1, startbtn2, statisticbtn;
 
     DatabaseHelper getDatabase;
     //SQLiteDatabase db = adb.openDatabase();
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         startbtn1 = (Button) findViewById(R.id.btn_start1);
         startbtn2 = (Button) findViewById(R.id.btn_start2);
+        statisticbtn = (Button) findViewById(R.id.btn_statistic);
         addbtn = (Button) findViewById(R.id.addquestion);
 
         startbtn1.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        statisticbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Statistics.class));
+            }
+        });
         addbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
