@@ -68,7 +68,8 @@
         android:text="Add Data"
         android:id="@+id/button_add"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="AddData" />
 
     <TextView
         android:layout_width="wrap_content"

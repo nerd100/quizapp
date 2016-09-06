@@ -54,6 +54,7 @@ public class Choose extends AppCompatActivity {
                 shared_preferences_editor.putString("Difficulty",editSpinner2.getSelectedItem().toString());
                 shared_preferences_editor.commit();
                 startActivity(new Intent(Choose.this, Start.class));
+                finish();
             }
         });
 

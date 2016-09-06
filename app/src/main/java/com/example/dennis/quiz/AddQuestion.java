@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,12 +22,14 @@ public class AddQuestion extends AppCompatActivity {
     EditText editQuestion, editRA, editFA1, editFA2, editFA3;
     Button btnAddData;
     Spinner editSpinner1,editSpinner2;
+    String Question,Category,Difficulty,RA,FA1,FA2,FA3;
     boolean isInserted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
+
         myDB = new DatabaseHelper(this);
 
         editSpinner1 = (Spinner) findViewById(R.id.spin);
@@ -36,29 +40,29 @@ public class AddQuestion extends AppCompatActivity {
         editFA2 = (EditText) findViewById(R.id.editFalseAnswer2);
         editFA3 = (EditText) findViewById(R.id.editFalseAnswer3);
         btnAddData = (Button) findViewById(R.id.button_add);
-        AddData();
-    }
 
-    public void AddData() {
-        btnAddData.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        isInserted = myDB.insertData(
-                                editSpinner1.getSelectedItem().toString(),
-                                editSpinner2.getSelectedItem().toString(),
-                                editQuestion.getText().toString(),
-                                editRA.getText().toString(),
-                                editFA1.getText().toString(),
-                                editFA2.getText().toString(),
-                                editFA3.getText().toString());
-                        if (isInserted = true)
-                            Toast.makeText(AddQuestion.this, "Data Inserted", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(AddQuestion.this, "Data not Inserted", Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if(networkInfo.isConnected()){
+            btnAddData.setEnabled(true);
+        }else{
+            btnAddData.setEnabled(true);        //WICHTIG DAS true WIEDER zu false machen
+        }
 
     }
+
+    public void AddData(View view) {
+        Question = editQuestion.getText().toString();
+        Category = editSpinner1.getSelectedItem().toString();
+        Difficulty = editSpinner2.getSelectedItem().toString();
+        RA = editRA.getText().toString();
+        FA1 = editFA1.getText().toString();
+        FA2 = editFA2.getText().toString();
+        FA3 = editFA3.getText().toString();
+        String method = "Insert";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method,Question,Category,Difficulty,RA,FA1,FA2,FA3);
+        finish();
+    }
+
 }
