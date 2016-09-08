@@ -44,9 +44,9 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
             String insert_url = "http://quizdb.net23.net/insert.php";
             String method = params[0];
             if (method.equals("Insert")) {
-                String Question = params[1];
-                String Category = params[2];
-                String Difficulty = params[3];
+                String Category = params[1];
+                String Difficulty = params[2];
+                String Question = params[3];
                 String RA = params[4];
                 String FA1 = params[5];
                 String FA2 = params[6];
@@ -59,9 +59,9 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                     httpURLConnection.setDoOutput(true);
                     OutputStream OS = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
-                    String data = URLEncoder.encode("Question", "UTF-8") + "=" + URLEncoder.encode(Question, "UTF-8") + "&" +
-                            URLEncoder.encode("Category", "UTF-8") + "=" + URLEncoder.encode(Category, "UTF-8") + "&" +
+                    String data = URLEncoder.encode("Category", "UTF-8") + "=" + URLEncoder.encode(Category, "UTF-8") + "&" +
                             URLEncoder.encode("Difficulty", "UTF-8") + "=" + URLEncoder.encode(Difficulty, "UTF-8") + "&" +
+                            URLEncoder.encode("Question", "UTF-8") + "=" + URLEncoder.encode(Question, "UTF-8") + "&" +
                             URLEncoder.encode("RA", "UTF-8") + "=" + URLEncoder.encode(RA, "UTF-8") + "&" +
                             URLEncoder.encode("FA1", "UTF-8") + "=" + URLEncoder.encode(FA1, "UTF-8") + "&" +
                             URLEncoder.encode("FA2", "UTF-8") + "=" + URLEncoder.encode(FA2, "UTF-8") + "&" +

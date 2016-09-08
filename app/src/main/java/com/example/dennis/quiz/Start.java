@@ -51,13 +51,13 @@ public class Start extends AppCompatActivity {
     int rightAnswer = 0;
     Random rand = new Random();
     Random r = new Random();
-    public String json_string;
-    public String myJSONString;
+
 
     private ProgressDialog loading;
     private static final String JSON_ARRAY = "server_response";
     private JSONArray ques = null;
 
+    int QuestionNumber = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,18 +66,16 @@ public class Start extends AppCompatActivity {
 
         shared_preferences = getSharedPreferences("shared_preferences_test", MODE_PRIVATE);
         whichQuiz = shared_preferences.getString("Number", "Default");
-
+        rightAnswer = r.nextInt(4);
         if(whichQuiz == "1") {
-            getData("", "", "5");
+            getData("", "", String.valueOf(QuestionNumber));
         }else{
             String Diff,Cate;
             Diff = shared_preferences.getString("Difficulty", "Default");
             Cate = shared_preferences.getString("Category", "Default");
-            getData(Diff, Cate, "5");
+            getData(Diff, Cate, String.valueOf(QuestionNumber));
         }
-        myDB = new DatabaseHelper(this);
 
-        rightAnswer = r.nextInt(4);
     }
 
     private ArrayList extractJSON(String response) {
@@ -138,114 +136,133 @@ public class Start extends AppCompatActivity {
 
 
     public void mixButtons(int i, final String RA, String FA1, String FA2, String FA3) {
-        switch (i) {
-            case 0:
-                btn1.setText(RA);
-                btn2.setText(FA1);
-                btn3.setText(FA2);
-                btn4.setText(FA3);
-                break;
-            case 1:
-                btn1.setText(FA1);
-                btn2.setText(RA);
-                btn3.setText(FA2);
-                btn4.setText(FA3);
-                break;
-            case 2:
-                btn1.setText(FA2);
-                btn2.setText(FA1);
-                btn3.setText(RA);
-                btn4.setText(FA3);
-                break;
-            case 3:
-                btn1.setText(FA3);
-                btn2.setText(FA1);
-                btn3.setText(FA2);
-                btn4.setText(RA);
-                break;
-            default:
-                break;
-        }
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btn1.getText() == RA) {
-                    Toast.makeText(getApplicationContext(), "10Punkte", Toast.LENGTH_SHORT)
-                            .show();
-                    if (QuestionAndButtons.size() > 0)
-                        next();
-                    else
-                        startActivity(new Intent(Start.this, MainActivity.class));
-                } else {
-                    Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
-                            .show();
-                    if (QuestionAndButtons.size() > 0)
-                        next();
-                    else
-                        startActivity(new Intent(Start.this, MainActivity.class));
-                }
+
+
+            switch (i) {
+                case 0:
+                    btn1.setText(RA);
+                    btn2.setText(FA1);
+                    btn3.setText(FA2);
+                    btn4.setText(FA3);
+                    break;
+                case 1:
+                    btn1.setText(FA1);
+                    btn2.setText(RA);
+                    btn3.setText(FA2);
+                    btn4.setText(FA3);
+                    break;
+                case 2:
+                    btn1.setText(FA2);
+                    btn2.setText(FA1);
+                    btn3.setText(RA);
+                    btn4.setText(FA3);
+                    break;
+                case 3:
+                    btn1.setText(FA3);
+                    btn2.setText(FA1);
+                    btn3.setText(FA2);
+                    btn4.setText(RA);
+                    break;
+                default:
+                    break;
             }
-        });
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btn2.getText() == RA) {
-                    Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
-                            .show();
-                    if (QuestionAndButtons.size() > 0)
-                        next();
-                    else
-                        startActivity(new Intent(Start.this, MainActivity.class));
-                } else {
-                    Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
-                            .show();
-                    if (QuestionAndButtons.size() > 0)
-                        next();
-                    else
-                        startActivity(new Intent(Start.this, MainActivity.class));
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (btn1.getText() == RA) {
+                        Toast.makeText(getApplicationContext(), "10Punkte", Toast.LENGTH_SHORT)
+                                .show();
+                        if (QuestionAndButtons.size() > 0) {
+                            next();
+                        } else {
+                            finish();
+                            startActivity(new Intent(Start.this, MainActivity.class));
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
+                                .show();
+                        if (QuestionAndButtons.size() > 0) {
+                            next();
+                        } else {
+                            startActivity(new Intent(Start.this, MainActivity.class));
+                            finish();
+                        }
+                    }
                 }
-            }
-        });
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btn3.getText() == RA) {
-                    Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
-                            .show();
-                    if (QuestionAndButtons.size() > 0)
-                        next();
-                    else
-                        startActivity(new Intent(Start.this, MainActivity.class));
-                } else {
-                    Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
-                            .show();
-                    if (QuestionAndButtons.size() > 0)
-                        next();
-                    else
-                        startActivity(new Intent(Start.this, MainActivity.class));
+            });
+            btn2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (btn2.getText() == RA) {
+                        Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
+                                .show();
+                        if (QuestionAndButtons.size() > 0) {
+                            next();
+                        } else {
+                            finish();
+                            startActivity(new Intent(Start.this, MainActivity.class));
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
+                                .show();
+                        if (QuestionAndButtons.size() > 0) {
+                            next();
+                        } else {
+                            startActivity(new Intent(Start.this, MainActivity.class));
+                            finish();
+                        }
+                    }
                 }
-            }
-        });
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btn4.getText() == RA) {
-                    Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
-                            .show();
-                    if (QuestionAndButtons.size() > 0)
-                        next();
-                    else
-                        startActivity(new Intent(Start.this, MainActivity.class));
-                } else {
-                    Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
-                            .show();
-                    if (QuestionAndButtons.size() > 0)
-                        next();
-                    else
-                        startActivity(new Intent(Start.this, MainActivity.class));
+            });
+            btn3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (btn3.getText() == RA) {
+                        Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
+                                .show();
+                        if (QuestionAndButtons.size() > 0) {
+                            next();
+                        } else {
+                            finish();
+                            startActivity(new Intent(Start.this, MainActivity.class));
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
+                                .show();
+                        if (QuestionAndButtons.size() > 0) {
+                            next();
+                        } else {
+                            startActivity(new Intent(Start.this, MainActivity.class));
+                            finish();
+                        }
+                    }
                 }
-            }
-        });
+            });
+            btn4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (btn4.getText() == RA) {
+                        Toast.makeText(getApplicationContext(), "Korrekt", Toast.LENGTH_SHORT)
+                                .show();
+                        if (QuestionAndButtons.size() > 0) {
+                            next();
+                        } else {
+                            finish();
+                            startActivity(new Intent(Start.this, MainActivity.class));
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Falsch", Toast.LENGTH_SHORT)
+                                .show();
+                        if (QuestionAndButtons.size() > 0) {
+                            next();
+                        } else {
+                            startActivity(new Intent(Start.this, MainActivity.class));
+                            finish();
+                        }
+                    }
+                }
+            });
+
     }
 
     private void getData(String Diff,String Cate,String Num){

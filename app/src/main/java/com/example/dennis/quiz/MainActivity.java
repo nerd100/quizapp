@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 shared_preferences_editor.apply();
 
                 startActivity(new Intent(MainActivity.this, Start.class));
-
+            finish();
             }
         });
 

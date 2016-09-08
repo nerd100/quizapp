@@ -61,7 +61,7 @@ public class AddQuestion extends AppCompatActivity {
         FA3 = editFA3.getText().toString();
         String method = "Insert";
         BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method,Question,Category,Difficulty,RA,FA1,FA2,FA3);
+        backgroundTask.execute(method,Category,Difficulty,Question,RA,FA1,FA2,FA3);
         finish();
     }
 
