@@ -20,9 +20,6 @@ public class Choose extends AppCompatActivity {
     Button startbtn2;
     Spinner editSpinner1, editSpinner2; //Spinner in Choose
 
-    String Category = "";
-    String Difficulty = "";
-    String test_string;
 
 
     @Override
@@ -36,13 +33,6 @@ public class Choose extends AppCompatActivity {
         shared_preferences = getSharedPreferences("shared_preferences_test",
                 MODE_PRIVATE);
 
-       // test_string = shared_preferences.getString("Category", "Default");
-
-        //prefEditor.putString("Diff",editSpinner2.getSelectedItem().toString());
-        //setCategory(editSpinner1.getSelectedItem().toString());
-        //setDifficutly(editSpinner2.getSelectedItem().toString());
-
-        //Log.d(TAG,"Hallo "+Category);
 
         startbtn2 = (Button) findViewById(R.id.start_btn2);
 
